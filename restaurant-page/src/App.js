@@ -9,22 +9,25 @@ function App() {
 
   const changeHeart = e => {
     e.preventDefault();
-    const tempList = restaurantList;
     const targetId = e.target.parentElement.id - 1;
 
+    const targetR = restaurantList[targetId];
+
+    // 빈 하트 클릭하면 빨간 하트로 변경, 카운트 1 증가
     if (e.target.id === "restaurant-empty") {
       e.target.id = "restaurant-red";
       e.target.src= redHeart;
-      tempList[targetId].heartCnt += 1;
+      targetR.heartCnt += 1;
     }
+    // 빨간 하트 클릭하면 빈 하트로 변경, 카운트 1 감소
     else if (e.target.id === "restaurant-red") {
       e.target.id = "restaurant-empty";
       e.target.src = emptyHeart;
-      tempList[targetId].heartCnt -= 1;
+      targetR.heartCnt -= 1;
     }
-    setRestaurantList(tempList);
-    console.log(tempList);
-    console.log(restaurantList);
+    setRestaurantList(restaurantList.filter(r => r.id !== targetId));
+    setRestaurantList(restaurantList.concat(targetR));
+
   }
   
   return (
